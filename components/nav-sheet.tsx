@@ -15,7 +15,7 @@ export function NavSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu />
+          <Menu className="h-8 w-8"/>
         </Button>
       </SheetTrigger>
       <SheetContent className="w-52">
