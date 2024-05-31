@@ -1,7 +1,9 @@
+import CaloRing from "@/components/calo-ring";
+
 export default function Page() {
   return (
     <>
-      <h1>Home Page</h1>
+      <CaloRing />
     </>
   );
 }

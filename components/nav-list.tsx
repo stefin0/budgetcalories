@@ -14,7 +14,6 @@ const links = [
 
 export default function NavList() {
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <menu className="hidden items-center gap-4 md:flex">
