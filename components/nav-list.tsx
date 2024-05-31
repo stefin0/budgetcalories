@@ -14,6 +14,7 @@ const links = [
 
 export default function NavList() {
   const pathname = usePathname();
+  console.log(pathname);
 
   return (
     <menu className="hidden items-center gap-4 md:flex">
@@ -22,9 +23,13 @@ export default function NavList() {
           <li key={link.name}>
             <Link
               href={link.href}
-              className={clsx("text-muted-foreground hover:underline", {
-                "text-foreground": pathname === link.href,
-              })}
+              className={clsx(
+                "hover:underline",
+                {
+                  "text-foreground": pathname === link.href,
+                },
+                { "text-muted-foreground": pathname !== link.href },
+              )}
             >
               {link.name}
             </Link>
