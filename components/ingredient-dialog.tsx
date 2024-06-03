@@ -33,18 +33,16 @@ export default function IngredientDialog() {
         <Button>Cook</Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[425px] rounded-lg">
-        <Carousel setApi={setApi} opts={{watchDrag: false}}>
+        <Carousel setApi={setApi} opts={{ watchDrag: false }}>
           <CarouselContent>
             <CarouselItem>
-              <DialogHeader className="text-left">
+              <DialogHeader className="px-1 text-left">
                 <DialogTitle>Create Ingredient</DialogTitle>
                 <DialogDescription>
                   Give information for your ingredient.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-1">
-                <IngredientForm handleNextSlide={handleNextSlide} />
-              </div>
+              <IngredientForm handleNextSlide={handleNextSlide} />
             </CarouselItem>
             <CarouselItem>
               <DialogHeader className="text-left">
