@@ -71,12 +71,14 @@ const formSchema = z.object({
     }),
 });
 
+export type IngredientFormData = z.infer<typeof formSchema>;
+
 export default function IngredientForm({
-  handleNextSlide,
+  handleFormSubmit,
 }: {
-  handleNextSlide: () => void;
+    handleFormSubmit: (data: IngredientFormData) => void;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<IngredientFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -84,15 +86,20 @@ export default function IngredientForm({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: IngredientFormData) {
     console.log(values);
-    handleNextSlide();
+    handleFormSubmit(values);
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
         className="mt-4 grid gap-4 px-1"
       >
         <FormField

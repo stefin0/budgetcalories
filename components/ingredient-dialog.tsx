@@ -9,22 +9,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import IngredientForm from "./ingredient-form";
+import IngredientForm, { IngredientFormData } from "./ingredient-form";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { useState } from "react";
+import IngredientReview from "./ingredient-review";
 
 export default function IngredientDialog() {
   const [api, setApi] = useState<CarouselApi>();
+  const [formData, setFormData] = useState<IngredientFormData | null>(null);
 
-  function handleNextSlide() {
-    api?.scrollNext();
+  function handleSlideNavigation(navigation: string) {
+    if (navigation === "next") {
+      api?.scrollNext();
+    } else if (navigation === "prev") {
+      api?.scrollPrev();
+    }
+  }
+
+  function handleFormSubmit(data: IngredientFormData) {
+    setFormData(data);
+    handleSlideNavigation("next");
   }
 
   return (
@@ -42,19 +51,24 @@ export default function IngredientDialog() {
                   Give information for your ingredient.
                 </DialogDescription>
               </DialogHeader>
-              <IngredientForm handleNextSlide={handleNextSlide} />
+              <IngredientForm handleFormSubmit={handleFormSubmit} />
             </CarouselItem>
             <CarouselItem>
               <DialogHeader className="text-left">
                 <DialogTitle>Review</DialogTitle>
-                <DialogDescription>
-                  Nutrition facts for 1 cup Milk.
-                </DialogDescription>
+                {formData && (
+                  <DialogDescription>
+                    Nutrition facts for {formData.quantity} {formData.unit}{" "}
+                    {formData.name}
+                  </DialogDescription>
+                )}
               </DialogHeader>
+              <IngredientReview
+                formData={formData}
+                handleSlideNavigation={handleSlideNavigation}
+              />
             </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
         </Carousel>
       </DialogContent>
     </Dialog>
