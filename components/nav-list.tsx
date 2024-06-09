@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
-import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
@@ -37,12 +36,6 @@ export default function NavList() {
       })}
       <li>
         <ModeToggle />
-      </li>
-      <li>
-        <Button>Sign up</Button>
-      </li>
-      <li>
-        <Button variant="secondary">Log in</Button>
       </li>
     </menu>
   );

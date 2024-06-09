@@ -9,13 +9,14 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
+import AuthButton from "./auth-button.server";
 
-export function NavSheet() {
+export default function NavSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-8 w-8"/>
+          <Menu className="h-8 w-8" />
         </Button>
       </SheetTrigger>
       <SheetContent className="w-52">
@@ -40,12 +41,7 @@ export function NavSheet() {
             <span>Theme</span> <ModeToggle />
           </li>
           <li className="mt-auto">
-            <Button className="w-full">Sign up</Button>
-          </li>
-          <li>
-            <Button variant="secondary" className="w-full">
-              Log in
-            </Button>
+            <AuthButton />
           </li>
         </menu>
       </SheetContent>
