@@ -3,12 +3,13 @@ import { RecipeDialog } from "./recipe-dialog";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import IngredientList from "./ingredient-list";
 
-export default function Cookbook() {
+export default async function Cookbook() {
   return (
     <>
       <Separator />
-      <Tabs defaultValue="recipes" className="m-4" >
+      <Tabs defaultValue="recipes" className="m-4">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="recipes">Recipes</TabsTrigger>
           <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
@@ -24,6 +25,7 @@ export default function Cookbook() {
             <Input placeholder="Search ingredients" />
             <IngredientDialog />
           </div>
+          <IngredientList />
         </TabsContent>
       </Tabs>
     </>
