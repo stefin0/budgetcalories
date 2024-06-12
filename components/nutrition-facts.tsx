@@ -5,7 +5,7 @@ export default function NutritionFacts({ formData }: { formData: IngredientFormD
   const calories = formData.fat * 9 + formData.carb * 4 + formData.protein * 4;
 
   return (
-    <div className="mx-auto mb-8 max-w-max border border-neutral-800 bg-white p-1 text-neutral-800">
+    <div className="mx-auto my-8 max-w-max border border-neutral-800 bg-white p-1 text-neutral-800">
       <p className="text-2xl font-bold">Nutrition Facts</p>
       <Separator className="h-[10px] bg-neutral-800" />
       <p className="flex items-baseline justify-between font-bold">

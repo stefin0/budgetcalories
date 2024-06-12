@@ -13,7 +13,7 @@ export default function IngredientEatDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" className="absolute w-20 right-0">Eat</Button>
+        <Button variant="secondary" className="mr-1 absolute w-20 right-0">Eat</Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[425px] rounded-lg">
         <DialogHeader className="text-left">

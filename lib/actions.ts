@@ -10,13 +10,28 @@ export async function createIngredient(
 ) {
   const calories = data.fat * 9 + data.carb * 4 + data.protein * 4;
 
-  await prisma.ingredient.create({
-    data: {
-      ...data,
-      calories,
-      user: { connect: { id: userId } },
-    },
-  });
+  try {
+    await prisma.ingredient.create({
+      data: {
+        ...data,
+        calories,
+        user: { connect: { id: userId } },
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to create Ingredient.");
+  }
 
   revalidatePath("/");
+}
+
+export async function deleteIngredient(id: string) {
+  try {
+    await prisma.ingredient.delete({ where: { id } });
+    revalidatePath("/");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to delete Ingredient");
+  }
 }
