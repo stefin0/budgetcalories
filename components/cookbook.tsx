@@ -17,13 +17,17 @@ export default async function Cookbook() {
         <TabsContent value="recipes">
           <div className="flex gap-4">
             <Input placeholder="Search recipes" />
-            <RecipeDialog />
+            <div className="grow">
+              <RecipeDialog />
+            </div>
           </div>
         </TabsContent>
         <TabsContent value="ingredients">
           <div className="flex gap-4">
             <Input placeholder="Search ingredients" />
-            <IngredientDialog />
+            <div className="grow">
+              <IngredientDialog />
+            </div>
           </div>
           <IngredientList />
         </TabsContent>

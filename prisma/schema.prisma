@@ -64,7 +64,7 @@ model VerificationToken {
 model Ingredient {
   id       String  @id @default(cuid())
   name     String
-  quantity Decimal @db.Decimal(7, 3) 
+  quantity Float 
   unit     String
   fat      Int
   carb     Int

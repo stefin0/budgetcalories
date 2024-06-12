@@ -40,6 +40,9 @@ const formSchema = z.object({
     })
     .max(9999, {
       message: "Quantity cannot exceed 9,999.",
+    })
+    .refine((value) => /^\d+(\.\d{1,3})?$/.test(value.toString()), {
+      message: "Quantity cannot exceed 3 decimal places.",
     }),
   unit: z.string(),
   fat: z.coerce
@@ -76,7 +79,7 @@ export type IngredientFormData = z.infer<typeof formSchema>;
 export default function IngredientForm({
   handleFormSubmit,
 }: {
-    handleFormSubmit: (data: IngredientFormData) => void;
+  handleFormSubmit: (data: IngredientFormData) => void;
 }) {
   const form = useForm<IngredientFormData>({
     resolver: zodResolver(formSchema),
@@ -87,7 +90,6 @@ export default function IngredientForm({
   });
 
   function onSubmit(values: IngredientFormData) {
-    console.log(values);
     handleFormSubmit(values);
   }
 
@@ -127,6 +129,7 @@ export default function IngredientForm({
                     {...field}
                     type="number"
                     inputMode="decimal"
+                    step="0.001"
                     className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   />
                 </FormControl>

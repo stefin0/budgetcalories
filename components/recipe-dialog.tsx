@@ -15,7 +15,7 @@ export function RecipeDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Cook</Button>
+        <Button className="w-20">Cook</Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] rounded-lg sm:max-w-[425px]">
         <DialogHeader className="text-left">
