@@ -28,15 +28,11 @@ export default function IngredientReview({
       return;
     }
 
-    try {
-      await createIngredient(formData, userId);
-    } catch (error) {
-      console.error(error);
-    }
+    await createIngredient(formData, userId);
   }
 
   return (
-    <div className="mt-8 px-1">
+    <div className="px-1">
       {formData && <NutritionFacts formData={formData} />}
       <DialogFooter className="grid grid-cols-2 gap-4">
         <Button

@@ -39,7 +39,7 @@ export default function IngredientDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-20">Cook</Button>
+        <Button className="w-20 mr-1">Cook</Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[425px] rounded-lg">
         <Carousel setApi={setApi} opts={{ watchDrag: false }}>
@@ -59,7 +59,7 @@ export default function IngredientDialog() {
                 {formData && (
                   <DialogDescription>
                     Nutrition facts for {formData.quantity} {formData.unit}{" "}
-                    {formData.name}
+                    <span className="break-all">{formData.name}</span>
                   </DialogDescription>
                 )}
               </DialogHeader>
