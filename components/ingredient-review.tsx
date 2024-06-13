@@ -8,10 +8,12 @@ import { createIngredient, updateIngredient } from "@/lib/actions";
 import { useSession } from "next-auth/react";
 
 export default function IngredientReview({
+  disabled,
   formData,
   handleSlideNavigation,
   ingredientId,
 }: {
+  disabled: boolean;
   formData: IngredientFormData | null;
   handleSlideNavigation: (navigation: string) => void;
   ingredientId?: string;
@@ -44,7 +46,7 @@ export default function IngredientReview({
   }
 
   return (
-    <div className="px-1">
+    <fieldset disabled={disabled} className="px-1">
       {formData && <NutritionFacts formData={formData} />}
       <DialogFooter className="grid grid-cols-2 gap-4">
         <Button
@@ -65,6 +67,6 @@ export default function IngredientReview({
           )}
         </DialogClose>
       </DialogFooter>
-    </div>
+    </fieldset>
   );
 }

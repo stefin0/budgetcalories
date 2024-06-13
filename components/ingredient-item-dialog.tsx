@@ -15,7 +15,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import NutritionFacts from "./nutrition-facts";
 import { Ingredient } from "@prisma/client";
@@ -27,12 +27,27 @@ export default function IngredientItemDialog(props: Ingredient) {
   const [api, setApi] = useState<CarouselApi>();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<IngredientFormData | null>(null);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   function handleSlideNavigation(navigation: string) {
     if (navigation === "next") {
       api?.scrollNext();
+      console.log("Slide: ", current);
     } else if (navigation === "prev") {
       api?.scrollPrev();
+      console.log("Slide: ", current);
     }
   }
 
@@ -73,7 +88,10 @@ export default function IngredientItemDialog(props: Ingredient) {
                 </DialogDescription>
               </DialogHeader>
               <NutritionFacts formData={props} />
-              <div className="grid grid-cols-2 gap-4 px-1">
+              <fieldset
+                disabled={current !== 1}
+                className="mb-1 grid grid-cols-2 gap-4 px-1"
+              >
                 <IngredientDeleteDialog
                   id={id}
                   quantity={quantity}
@@ -87,7 +105,7 @@ export default function IngredientItemDialog(props: Ingredient) {
                 >
                   Edit
                 </Button>
-              </div>
+              </fieldset>
             </CarouselItem>
             <CarouselItem>
               <DialogHeader className="px-1 text-left">
@@ -97,6 +115,7 @@ export default function IngredientItemDialog(props: Ingredient) {
                 </DialogDescription>
               </DialogHeader>
               <IngredientForm
+                disabled={current !== 2}
                 handleFormSubmit={handleFormSubmit}
                 defaultValues={props}
                 handleSlideNavigation={handleSlideNavigation}
@@ -113,6 +132,7 @@ export default function IngredientItemDialog(props: Ingredient) {
                 )}
               </DialogHeader>
               <IngredientReview
+                disabled={current !== 3}
                 ingredientId={id}
                 formData={formData}
                 handleSlideNavigation={handleSlideNavigation}

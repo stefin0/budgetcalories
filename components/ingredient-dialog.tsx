@@ -16,12 +16,25 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IngredientReview from "./ingredient-review";
 
 export default function IngredientDialog() {
   const [api, setApi] = useState<CarouselApi>();
   const [formData, setFormData] = useState<IngredientFormData | null>(null);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   function handleSlideNavigation(navigation: string) {
     if (navigation === "next") {
@@ -55,7 +68,10 @@ export default function IngredientDialog() {
                   Give information for your ingredient.
                 </DialogDescription>
               </DialogHeader>
-              <IngredientForm handleFormSubmit={handleFormSubmit} />
+              <IngredientForm
+                disabled={current !== 1}
+                handleFormSubmit={handleFormSubmit}
+              />
             </CarouselItem>
             <CarouselItem>
               <DialogHeader className="text-left">
@@ -68,6 +84,7 @@ export default function IngredientDialog() {
                 )}
               </DialogHeader>
               <IngredientReview
+                disabled={current !== 2}
                 formData={formData}
                 handleSlideNavigation={handleSlideNavigation}
               />
