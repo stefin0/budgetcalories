@@ -78,14 +78,18 @@ export type IngredientFormData = z.infer<typeof formSchema>;
 
 export default function IngredientForm({
   handleFormSubmit,
+  defaultValues,
+  handleSlideNavigation,
 }: {
   handleFormSubmit: (data: IngredientFormData) => void;
+  defaultValues?: Partial<IngredientFormData>;
+  handleSlideNavigation?: (navigation: string) => void;
 }) {
   const form = useForm<IngredientFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       unit: "",
+      ...defaultValues,
     },
   });
 
@@ -230,9 +234,22 @@ export default function IngredientForm({
             )}
           />
         </div>
-        <Button type="submit" className="mb-1 mt-4 w-full">
-          Next
-        </Button>
+        {defaultValues && handleSlideNavigation ? (
+          <div className="mt-4 mb-1 grid grid-cols-2 gap-4">
+            <Button
+              onClick={() => handleSlideNavigation("prev")}
+              type="button"
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Next</Button>
+          </div>
+        ) : (
+          <Button type="submit" className="mb-1 mt-4 w-full">
+            Next
+          </Button>
+        )}
       </form>
     </Form>
   );

@@ -39,10 +39,14 @@ export default function IngredientDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-20 mr-1">Cook</Button>
+        <Button className="mr-1 w-20">Cook</Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[425px] rounded-lg">
-        <Carousel setApi={setApi} opts={{ watchDrag: false }}>
+        <Carousel
+          setApi={setApi}
+          opts={{ watchDrag: false }}
+          className="min-w-0"
+        >
           <CarouselContent>
             <CarouselItem>
               <DialogHeader className="px-1 text-left">
