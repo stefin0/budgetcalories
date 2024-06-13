@@ -9,7 +9,7 @@ export default async function Cookbook() {
   return (
     <>
       <Separator />
-      <Tabs defaultValue="recipes" className="m-4">
+      <Tabs defaultValue="recipes" className="mx-auto max-w-2xl p-4">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="recipes">Recipes</TabsTrigger>
           <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
@@ -21,6 +21,7 @@ export default async function Cookbook() {
               <RecipeDialog />
             </div>
           </div>
+          <Separator className="mt-2" />
         </TabsContent>
         <TabsContent value="ingredients">
           <div className="flex gap-4">
@@ -29,6 +30,7 @@ export default async function Cookbook() {
               <IngredientDialog />
             </div>
           </div>
+          <Separator className="mt-2" />
           <IngredientList />
         </TabsContent>
       </Tabs>

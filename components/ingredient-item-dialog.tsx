@@ -113,6 +113,7 @@ export default function IngredientItemDialog(props: Ingredient) {
                 )}
               </DialogHeader>
               <IngredientReview
+                ingredientId={id}
                 formData={formData}
                 handleSlideNavigation={handleSlideNavigation}
               />

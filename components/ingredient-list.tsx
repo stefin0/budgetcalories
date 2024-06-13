@@ -17,12 +17,11 @@ export default async function IngredientList() {
   const ingredients: Ingredient[] = await fetchIngredients(userId);
 
   return (
-    <ul className="mt-2">
-      <Separator />
+    <ul>
       {ingredients.map((ingredient) => (
-        <li key={ingredient.id} className="relative" >
-          <div className="items-center flex">
-            <IngredientItemDialog {...ingredient}/>
+        <li key={ingredient.id} className="relative">
+          <div className="flex items-center">
+            <IngredientItemDialog {...ingredient} />
             <IngredientEatDialog />
           </div>
           <Separator />

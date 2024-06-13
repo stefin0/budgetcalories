@@ -4,15 +4,17 @@ import { IngredientFormData } from "./ingredient-form";
 import NutritionFacts from "./nutrition-facts";
 import { Button } from "./ui/button";
 import { DialogClose, DialogFooter } from "./ui/dialog";
-import { createIngredient } from "@/lib/actions";
+import { createIngredient, updateIngredient } from "@/lib/actions";
 import { useSession } from "next-auth/react";
 
 export default function IngredientReview({
   formData,
   handleSlideNavigation,
+  ingredientId,
 }: {
   formData: IngredientFormData | null;
   handleSlideNavigation: (navigation: string) => void;
+  ingredientId?: string;
 }) {
   const { data: session } = useSession();
 
@@ -21,14 +23,24 @@ export default function IngredientReview({
       console.error("User not authenticated");
       return;
     }
-
     const userId = session?.user?.id;
     if (!userId) {
       console.error("User ID is undefined");
       return;
     }
-
     await createIngredient(formData, userId);
+  }
+
+  async function handleUpdate() {
+    if (!session || !session?.user || !formData) {
+      console.error("User not authenticated");
+      return;
+    }
+    if (!ingredientId) {
+      console.error("Invalid Ingredient");
+      return;
+    }
+    await updateIngredient(formData, ingredientId);
   }
 
   return (
@@ -42,9 +54,15 @@ export default function IngredientReview({
           Back
         </Button>
         <DialogClose asChild>
-          <Button type="submit" onClick={handleCreate}>
-            Create
-          </Button>
+          {ingredientId ? (
+            <Button type="submit" onClick={handleUpdate}>
+              Update
+            </Button>
+          ) : (
+            <Button type="submit" onClick={handleCreate}>
+              Create
+            </Button>
+          )}
         </DialogClose>
       </DialogFooter>
     </div>
