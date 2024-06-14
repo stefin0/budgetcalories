@@ -11,13 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function RecipeDialog() {
+export default function RecipeDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-20 mr-1">Cook</Button>
       </DialogTrigger>
-      <DialogContent className="w-[95vw] rounded-lg sm:max-w-[425px]">
+      <DialogContent className="w-[95vw] rounded-lg sm:max-w-[27rem]">
         <DialogHeader className="text-left">
           <DialogTitle>Create Recipe</DialogTitle>
           <DialogDescription>Give a name to your recipe.</DialogDescription>

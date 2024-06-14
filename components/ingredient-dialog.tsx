@@ -54,7 +54,7 @@ export default function IngredientDialog() {
       <DialogTrigger asChild>
         <Button className="mr-1 w-20">Cook</Button>
       </DialogTrigger>
-      <DialogContent className="w-[95vw] max-w-[425px] rounded-lg">
+      <DialogContent className="w-[95vw] max-w-[27rem] rounded-lg">
         <Carousel
           setApi={setApi}
           opts={{ watchDrag: false }}
