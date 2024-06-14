@@ -77,15 +77,21 @@ const formSchema = z.object({
 export type IngredientFormData = z.infer<typeof formSchema>;
 
 export default function IngredientForm({
+  disabled,
   handleFormSubmit,
+  defaultValues,
+  handleSlideNavigation,
 }: {
+  disabled: boolean;
   handleFormSubmit: (data: IngredientFormData) => void;
+  defaultValues?: Partial<IngredientFormData>;
+  handleSlideNavigation?: (navigation: string) => void;
 }) {
   const form = useForm<IngredientFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       unit: "",
+      ...defaultValues,
     },
   });
 
@@ -95,145 +101,160 @@ export default function IngredientForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-          }
-        }}
-        className="mt-4 grid gap-4 px-1"
-      >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+      <fieldset disabled={disabled}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}
+          className="mt-4 grid gap-4 px-1"
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      inputMode="decimal"
+                      step="0.001"
+                      className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="unit"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <FormControl>
+                    <Controller
+                      name="unit"
+                      control={form.control}
+                      render={({ field }) => (
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Metric</SelectLabel>
+                              <SelectItem value="g">g</SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                              <SelectLabel>Imperial</SelectLabel>
+                              <SelectItem value="oz">oz</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="fat"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fat</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      inputMode="numeric"
+                      className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="carb"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Carb</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      inputMode="numeric"
+                      className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="protein"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Protein</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      inputMode="numeric"
+                      className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {defaultValues && handleSlideNavigation ? (
+            <div className="mb-1 mt-4 grid grid-cols-2 gap-4">
+              <Button
+                onClick={() => handleSlideNavigation("prev")}
+                type="button"
+                variant="secondary"
+              >
+                Cancel
+              </Button>
+              <Button type="submit">Next</Button>
+            </div>
+          ) : (
+            <Button type="submit" className="mb-1 mt-4 w-full">
+              Next
+            </Button>
           )}
-        />
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="quantity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Quantity</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    inputMode="decimal"
-                    step="0.001"
-                    className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="unit"
-            render={() => (
-              <FormItem>
-                <FormLabel>Unit</FormLabel>
-                <FormControl>
-                  <Controller
-                    name="unit"
-                    control={form.control}
-                    render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Metric</SelectLabel>
-                            <SelectItem value="g">g</SelectItem>
-                          </SelectGroup>
-                          <SelectGroup>
-                            <SelectLabel>Imperial</SelectLabel>
-                            <SelectItem value="oz">oz</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="fat"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Fat</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    inputMode="numeric"
-                    className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="carb"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Carb</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    inputMode="numeric"
-                    className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="protein"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Protein</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    inputMode="numeric"
-                    className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button type="submit" className="mb-1 mt-4 w-full">
-          Next
-        </Button>
-      </form>
+        </form>
+      </fieldset>
     </Form>
   );
 }
