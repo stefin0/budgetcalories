@@ -18,13 +18,13 @@ export default async function IngredientList() {
 
   return (
     <ul>
-      {ingredients.map((ingredient) => (
+      {ingredients.map((ingredient, index) => (
         <li key={ingredient.id} className="relative">
           <div className="flex items-center">
             <IngredientItemDialog {...ingredient} />
             <IngredientEatDialog />
           </div>
-          <Separator />
+          {index < ingredients.length - 1 && <Separator />}
         </li>
       ))}
     </ul>

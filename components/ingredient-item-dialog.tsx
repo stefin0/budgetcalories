@@ -44,10 +44,8 @@ export default function IngredientItemDialog(props: Ingredient) {
   function handleSlideNavigation(navigation: string) {
     if (navigation === "next") {
       api?.scrollNext();
-      console.log("Slide: ", current);
     } else if (navigation === "prev") {
       api?.scrollPrev();
-      console.log("Slide: ", current);
     }
   }
 
