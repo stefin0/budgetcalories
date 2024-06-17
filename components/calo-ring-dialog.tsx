@@ -17,7 +17,7 @@ export default function CaloRingDialog() {
       <DialogTrigger asChild>
         <button className="absolute aspect-square w-5/12 max-w-80 rounded-full bg-background transition-colors hover:bg-secondary"></button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[27rem]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>

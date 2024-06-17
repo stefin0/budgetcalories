@@ -68,7 +68,7 @@ export default function IngredientItemDialog(props: Ingredient) {
           <p className="text-sm text-muted-foreground">{calories} Cal.</p>
         </button>
       </DialogTrigger>
-      <DialogContent className="w-[95vw] max-w-[425px] rounded-lg">
+      <DialogContent className="w-[95vw] max-w-[27rem] rounded-lg">
         <Carousel
           setApi={setApi}
           opts={{ watchDrag: false }}

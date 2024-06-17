@@ -35,7 +35,7 @@ export default function IngredientDeleteDialog({
       <AlertDialogTrigger asChild>
         <Button variant="outline">Delete</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="w-[95vw] max-w-[425px] rounded-lg">
+      <AlertDialogContent className="w-[95vw] max-w-[27rem] rounded-lg">
         <AlertDialogHeader className="px-1 text-left">
           <AlertDialogTitle>Delete Ingredient?</AlertDialogTitle>
           <AlertDialogDescription>
