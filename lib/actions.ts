@@ -50,3 +50,15 @@ export async function updateIngredient(data: IngredientFormData, id: string) {
     throw new Error("Failed to update ingredient");
   }
 }
+
+export async function updateCaloriesGoal(userId: string, caloriesGoal: number) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { caloriesGoal },
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to update goal calories.");
+  }
+}
