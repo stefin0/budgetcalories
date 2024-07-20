@@ -43,11 +43,17 @@ export default function CaloRingDialog({
       return;
     }
 
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
+    const handleSelect = () => {
       setCurrent(api.selectedScrollSnap() + 1);
-    });
+    };
+
+    handleSelect();
+
+    api.on("select", handleSelect);
+
+    return () => {
+      api.off("select", handleSelect);
+    };
   }, [api]);
 
   function handleSlideNavigation(navigation: string) {
