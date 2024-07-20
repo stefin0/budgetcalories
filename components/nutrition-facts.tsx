@@ -1,10 +1,19 @@
-import { IngredientFormData } from "./ingredient-form";
 import { Separator } from "./ui/separator";
+
+export type NutritionFactsType = {
+  name?: string;
+  quantity?: number;
+  unit?: string;
+  fat: number;
+  carb: number;
+  protein: number;
+  calories?: number;
+};
 
 export default function NutritionFacts({
   formData,
 }: {
-  formData: IngredientFormData;
+  formData: NutritionFactsType;
 }) {
   const formatNumber = (num: number) =>
     num % 1 === 0 ? num.toFixed(0) : num.toFixed(1);
@@ -19,15 +28,17 @@ export default function NutritionFacts({
         Nutrition Facts
       </p>
       <Separator className="h-[2px] bg-neutral-800" />
-      <div className="flex justify-between gap-2 text-xs font-bold">
-        <p className="text-nowrap">Serving size</p>
-        <div className="flex max-w-[11ch] gap-1 overflow-hidden">
-          <p className="truncate">{formData.quantity}</p>
-          <p className="truncate">
-            {formData.unit ? formData.unit : formData.name}
-          </p>
+      {formData.quantity !== 0 && (
+        <div className="flex justify-between gap-2 text-xs font-bold">
+          <p className="text-nowrap">Serving size</p>
+          <div className="flex max-w-[11ch] gap-1 overflow-hidden">
+            <p className="truncate">{formData.quantity}</p>
+            <p className="truncate">
+              {formData.unit ? formData.unit : formData.name}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
       <Separator className="h-[10px] bg-neutral-800" />
       <p className="flex items-baseline justify-between gap-2 overflow-hidden font-bold">
         <span>Calories</span>

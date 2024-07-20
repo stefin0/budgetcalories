@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,6 +21,7 @@ const formSchema = z.object({
     })
     .max(99999, { message: "Calories cannot exceed 99999" }),
 });
+export type CaloriesGoalFormData = z.infer<typeof formSchema>;
 
 export default function CaloriesGoalForm({
   disabled,
@@ -30,18 +30,18 @@ export default function CaloriesGoalForm({
   caloriesGoal,
 }: {
   disabled: boolean;
-  handleFormSubmit: (data: number) => void;
+  handleFormSubmit: (data: CaloriesGoalFormData) => void;
   handleSlideNavigation?: (navigation: string) => void;
   caloriesGoal: number;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<CaloriesGoalFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       calories: caloriesGoal,
     },
   });
 
-  function onSubmit(values: any) {
+  function onSubmit(values: CaloriesGoalFormData) {
     handleFormSubmit(values);
   }
 

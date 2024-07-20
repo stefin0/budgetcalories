@@ -1,5 +1,6 @@
 "use client";
-
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
@@ -24,7 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Ingredient } from "@prisma/client";
 import NutritionFacts from "./nutrition-facts";
-import { useState } from "react";
+import { eatFood } from "@/lib/actions";
 
 const formSchema = z.object({
   serving: z.coerce
@@ -34,7 +35,9 @@ const formSchema = z.object({
 });
 
 export default function IngredientEatDialog(props: Ingredient) {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,6 +54,18 @@ export default function IngredientEatDialog(props: Ingredient) {
     protein: props.protein * serving,
   };
 
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const serving = values.serving;
+    const ingredientId = props.id;
+    const userId = session?.user?.id;
+
+    if (userId) {
+      await eatFood(userId, ingredientId, serving);
+    }
+
+    setOpen(false);
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -65,7 +80,7 @@ export default function IngredientEatDialog(props: Ingredient) {
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(() => setOpen(false))}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="mt-4 space-y-8"
           >
             <FormField
