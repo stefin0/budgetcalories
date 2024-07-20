@@ -22,7 +22,7 @@ export default async function IngredientList() {
         <li key={ingredient.id} className="relative">
           <div className="flex items-center">
             <IngredientItemDialog {...ingredient} />
-            <IngredientEatDialog />
+            <IngredientEatDialog {...ingredient} />
           </div>
           {index < ingredients.length - 1 && <Separator />}
         </li>

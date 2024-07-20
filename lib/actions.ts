@@ -1,8 +1,7 @@
 "use server";
-
-import { IngredientFormData } from "@/components/ingredient-form";
 import prisma from "./db";
 import { revalidatePath } from "next/cache";
+import { IngredientFormData } from "@/components/ingredient-form";
 
 export async function createIngredient(
   data: IngredientFormData,
@@ -48,5 +47,46 @@ export async function updateIngredient(data: IngredientFormData, id: string) {
   } catch (error) {
     console.error(error);
     throw new Error("Failed to update ingredient");
+  }
+}
+
+export async function updateCaloriesGoal(userId: string, caloriesGoal: number) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { caloriesGoal },
+    });
+    revalidatePath("/");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to update goal calories.");
+  }
+}
+
+export async function eatFood(
+  userId: string,
+  ingredientId: string,
+  serving: number,
+) {
+  const foodEaten = await prisma.foodEaten.create({
+    data: {
+      userId,
+      ingredientId,
+      serving,
+      date: new Date(),
+    },
+  });
+  revalidatePath("/");
+
+  return foodEaten;
+}
+
+export async function removeFoodEaten(id: string) {
+  try {
+    await prisma.foodEaten.delete({ where: { id } });
+    revalidatePath("/");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to remove food item.");
   }
 }
