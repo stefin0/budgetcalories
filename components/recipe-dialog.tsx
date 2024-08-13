@@ -53,13 +53,13 @@ export default function RecipeDialog() {
       <DialogTrigger asChild>
         <Button className="mr-1 w-20">Cook</Button>
       </DialogTrigger>
-      <DialogContent className="w-[95vw] rounded-lg sm:max-w-[27rem]">
+      <DialogContent className="h-[95svh] max-h-[40rem] min-h-[30rem] w-[95vw] max-w-[27rem] overflow-hidden rounded-lg">
         <Carousel
           setApi={setApi}
-          opts={{ watchDrag: false}}
-          className="min-w-0"
+          opts={{ watchDrag: false }}
+          className="min-w-0 overflow-hidden"
         >
-          <CarouselContent>
+          <CarouselContent className="h-full">
             <CarouselItem>
               <DialogHeader className="px-1 text-left">
                 <DialogTitle>Create Recipe</DialogTitle>
@@ -72,7 +72,7 @@ export default function RecipeDialog() {
                 handleFormSubmit={handleFormSubmit}
               />
             </CarouselItem>
-            <CarouselItem>
+            <CarouselItem className="gap-4 flex flex-col">
               <DialogHeader className="px-1 text-left">
                 <DialogTitle>Add Ingredients</DialogTitle>
                 <DialogDescription>
