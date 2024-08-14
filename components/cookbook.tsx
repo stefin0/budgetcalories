@@ -1,3 +1,4 @@
+"use client"
 import IngredientDialog from "./ingredient-dialog";
 import RecipeDialog from "./recipe-dialog";
 import { Input } from "./ui/input";
@@ -5,7 +6,7 @@ import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import IngredientList from "./ingredient-list";
 
-export default async function Cookbook() {
+export default function Cookbook() {
   return (
     <>
       <Separator />
