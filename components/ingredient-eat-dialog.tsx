@@ -34,7 +34,10 @@ const formSchema = z.object({
     .max(9999, { message: "Serving cannot exceed 9999." }),
 });
 
-export default function IngredientEatDialog(props: Ingredient) {
+export default function IngredientEatDialog({
+  addIngredientToRecipe,
+  ...props
+}: Ingredient & { addIngredientToRecipe?: (ingredient: Ingredient) => void }) {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
 
@@ -54,7 +57,7 @@ export default function IngredientEatDialog(props: Ingredient) {
     protein: props.protein * serving,
   };
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmitEat(values: z.infer<typeof formSchema>) {
     const serving = values.serving;
     const ingredientId = props.id;
     const userId = session?.user?.id;
@@ -66,21 +69,41 @@ export default function IngredientEatDialog(props: Ingredient) {
     setOpen(false);
   }
 
+  function onSubmitAdd(values: z.infer<typeof formSchema>) {
+    const serving = values.serving;
+    const ingredient = {
+      ...props,
+      quantity: props.quantity * serving,
+      fat: props.fat * serving,
+      carb: props.carb * serving,
+      protein: props.protein * serving,
+      calories: props.calories * serving,
+    };
+    if (addIngredientToRecipe) {
+      addIngredientToRecipe(ingredient);
+    }
+    setOpen(false);
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary" className="absolute right-0 mr-1 w-20">
-          Eat
+          {addIngredientToRecipe ? "Add" : "Eat"}
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[27rem] gap-0 rounded-lg">
         <DialogHeader className="text-left">
-          <DialogTitle>Eat</DialogTitle>
-          <DialogDescription>How much do you want to eat?</DialogDescription>
+          <DialogTitle>{addIngredientToRecipe ? "Add" : "Eat"}</DialogTitle>
+          <DialogDescription>
+            How much do you want to {addIngredientToRecipe ? "add" : "eat"}?
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(
+              addIngredientToRecipe ? onSubmitAdd : onSubmitEat,
+            )}
             className="mt-4 space-y-8"
           >
             <FormField
@@ -104,7 +127,7 @@ export default function IngredientEatDialog(props: Ingredient) {
             <NutritionFacts formData={updatedFormData} />
             <DialogFooter>
               <Button type="submit" className="w-full">
-                Eat
+                {addIngredientToRecipe ? "Add" : "Eat"}
               </Button>
             </DialogFooter>
           </form>

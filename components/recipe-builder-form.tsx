@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
-import IngredientList from "./ingredient-list";
-import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import IngredientListBuilder from "./ingredient-list-builder";
+import IngredientListAdded from "./ingredient-list-added";
+import { useState } from "react";
+import { Ingredient } from "@prisma/client";
 
 export default function RecipeBuilderForm({
   disabled,
@@ -12,10 +14,21 @@ export default function RecipeBuilderForm({
   disabled: boolean;
   handleSlideNavigation: (navigation: string) => void;
 }) {
+  const [ingredientsAdded, setIngredientsAdded] = useState<Ingredient[]>([]);
+
+  function addIngredientToRecipe(ingredient: Ingredient) {
+    setIngredientsAdded((prev) => [...prev, ingredient]);
+  }
+
+  function removeIngredientFromRecipe(id: string) {
+    setIngredientsAdded((prev) =>
+      prev.filter((ingredient) => ingredient.id !== id),
+    );
+  }
 
   return (
     <>
-      <Tabs defaultValue="ingredients" className="flex min-h-0 flex-col">
+      <Tabs defaultValue="ingredients" className="flex min-h-0 flex-col px-1">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger disabled={disabled} value="ingredients">
             Ingredients
@@ -28,31 +41,35 @@ export default function RecipeBuilderForm({
           className={`${disabled ? "invisible" : ""} flex min-h-0 flex-col data-[state=inactive]:mt-0`}
           value="ingredients"
         >
-          <Input placeholder="Search Ingredients" />
+          <Input className="h-auto" placeholder="Search Ingredients" />
           <Separator className="mt-2" />
-          <ScrollArea>
-            <IngredientList />
-          </ScrollArea>
+          <IngredientListBuilder
+            addIngredientToRecipe={addIngredientToRecipe}
+          />
         </TabsContent>
         <TabsContent
           className={`${disabled ? "invisible" : ""} flex min-h-0 flex-col data-[state=inactive]:mt-0`}
           value="added"
         >
-          <Input placeholder="Search Added" />
+          <Input className="h-auto" placeholder="Search Added" />
           <Separator className="mt-2" />
-          <ScrollArea>
-            <IngredientList />
-          </ScrollArea>
+          <IngredientListAdded
+            ingredientsAdded={ingredientsAdded}
+            removeIngredientFromRecipe={removeIngredientFromRecipe}
+          />
         </TabsContent>
       </Tabs>
-      <div className="mt-auto grid grid-cols-2 gap-4">
+      <div className="mt-auto grid grid-cols-2 gap-4 p-1">
         <Button
+          disabled={disabled}
           variant="secondary"
           onClick={() => handleSlideNavigation("prev")}
         >
           Back
         </Button>
-        <Button type="submit">Next</Button>
+        <Button disabled={disabled} type="submit">
+          Next
+        </Button>
       </div>
     </>
   );
